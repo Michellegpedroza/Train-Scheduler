@@ -23,6 +23,7 @@
     </div>
   </div>
 
+  <!-- Train Schedule Table -->
   <div class="container">
     <table class="table table-striped table-hover border border-dark">
       <thead class="bg-info text-white">
@@ -34,31 +35,11 @@
           <th scope="col">Minutes Away</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <th scope="row"></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-      </tbody>
+      <!-- Train Information -->
+      <tbody id="addRow"></tbody>
     </table>
 
-
+<!-- Form to Add a Train -->
     <div class="card border-dark mt-5">
       <div class="card-header bg-info text-white">
         <h4>Add Train</h4>
@@ -66,28 +47,37 @@
       <div class="card-body">
         <form>
           <div class="form-group">
-            <label for="formGroupExampleInput">Train Name</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+            <label for="trainTime">Train Name</label>
+            <input type="text" class="form-control" id="trainTime" placeholder="Train Time">
           </div>
           <div class="form-group">
-            <label for="formGroupExampleInput2">Destination</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+            <label for="Destination">Destination</label>
+            <input type="text" class="form-control" id="Destination" placeholder="Destination">
           </div>
             <div class="form-group">
-              <label for="formGroupExampleInput2">First Train Time (HH:mm - military time)</label>
-              <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              <label for="firstTrainTime">First Train Time (HH:mm - military time)</label>
+              <input type="text" class="form-control" id="firstTrainTime" placeholder="First Train Time">
             </div>
               <div class="form-group">
-                <label for="formGroupExampleInput2">Frequency (min)</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+                <label for="Frequency">Frequency (min)</label>
+                <input type="text" class="form-control" id="frequency" placeholder="Frequency">
               </div>
-              <button type="button" class="btn btn-info">Submit</button>
+              <button type="button" class="btn btn-info" id="submit">Submit</button>
         </form>
       </div>
     </div>
-
   </div>
 
+
+
+  <!-- Custom JS -->
+  <script src="./assets/app.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-analytics.js"></script>
+  <!-- Boostrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
