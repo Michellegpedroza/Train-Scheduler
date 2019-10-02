@@ -1,5 +1,5 @@
 // Your web app's Firebase configuration
-const firebaseConfig = {
+const config = {
   apiKey: `AIzaSyCotr9_bOZ82TFN-UXVVHirjULjjopSfh0`,
   authDomain: `train-scheduler-99335.firebaseapp.com`,
   databaseURL: `https://train-scheduler-99335.firebaseio.com`,
@@ -10,11 +10,41 @@ const firebaseConfig = {
   measurementId: `G-FDCB73XSZX`
 }
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig)
-firebase.analytics()
+firebase.initializeApp(config)
 
+let database = firebase.database
 
+//Submit Button click event to gather new train info
+document.getElementById(`submit`).addEventListener(`click`, function () {
+  // console.log(`hello`)
+  let nameInput = document.getElementById(`trainName`).value
+  let destinationInput = document.getElementById(`destination`).value
+  let trainTimeInput = document.getElementById(`firstTrainTime`).value
+  let frequencyInput = document.getElementById(`frequency`).value
 
+  //Validating  form Inputs
+  if (nameInput != `` &&
+    destinationInput != `` &&
+    trainTimeInput.length === 4 &&
+    frequencyInput != ``) {
+      //Adding input values into the firebase database
+    database.ref().push({
+      name: nameInput,
+      destination: destinationInput,
+      firstTrainTime: trainTimeInput,
+      frequency: frequencyInput
+    })
+  } else {
+    document.getElementById(`alert`).innerHTML = `
+          <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+              <strong>Please enter valid train data.</strong> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div> 
+          `
+  }
+})
 
 
 // pass original date in seconds (unix) and rate in minutes
