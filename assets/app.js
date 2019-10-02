@@ -1,4 +1,4 @@
-// Your web app's Firebase configuration
+// Firebase configuration
 const config = {
   apiKey: `AIzaSyCotr9_bOZ82TFN-UXVVHirjULjjopSfh0`,
   authDomain: `train-scheduler-99335.firebaseapp.com`,
@@ -12,7 +12,8 @@ const config = {
 // Initialize Firebase
 firebase.initializeApp(config)
 
-let database = firebase.database
+//Variable to reference the db
+let database = firebase.firestore()
 
 //Submit Button click event to gather new train info
 document.getElementById(`submit`).addEventListener(`click`, function () {
