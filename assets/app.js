@@ -15,6 +15,12 @@ firebase.initializeApp(config)
 //Variable to reference the db
 let database = firebase.firestore()
 
+//Array for trains 
+let trains = [ ]
+
+//Firestore Collection
+database.collection(`train`)
+
 //Submit Button click event to gather new train info
 document.getElementById(`submit`).addEventListener(`click`, function () {
   // console.log(`hello`)
@@ -28,8 +34,8 @@ document.getElementById(`submit`).addEventListener(`click`, function () {
     destinationInput != `` &&
     trainTimeInput.length === 4 &&
     frequencyInput != ``) {
-      //Adding input values into the firebase database
-    database.ref().push({
+      //Adding input values into the firestore database
+    database.collection(`trains`).add({
       name: nameInput,
       destination: destinationInput,
       firstTrainTime: trainTimeInput,
@@ -46,7 +52,6 @@ document.getElementById(`submit`).addEventListener(`click`, function () {
           `
   }
 })
-
 
 // pass original date in seconds (unix) and rate in minutes
 const getNext = (original, rate) => {
