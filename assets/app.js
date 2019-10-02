@@ -12,18 +12,28 @@ const config = {
 // Initialize Firebase
 firebase.initializeApp(config)
 
-//Variable to reference the db
+//Variable to reference the firestore db
 let database = firebase.firestore()
 
 //Array for trains 
 let trains = [ ]
 
 //Firestore Collection
-database.collection(`train`)
+database.collection(`train`).orderBy(`name`).onSnapshot(function (snapshot) {
+  trains = snapshot.docs.map(function (doc) {
+    return doc.data()
+  })
+  let tableContent = document.getElementById(`tableBody`)
+  tableContent.innerHTML = ``
+  for (let i = 0; i < trains.length; i ++) {
+    
+  }
+})
 
 //Submit Button click event to gather new train info
-document.getElementById(`submit`).addEventListener(`click`, function () {
+document.getElementById(`submit`).addEventListener(`click`, function (e) {
   // console.log(`hello`)
+  e.preventDefault()
   let nameInput = document.getElementById(`trainName`).value
   let destinationInput = document.getElementById(`destination`).value
   let trainTimeInput = document.getElementById(`firstTrainTime`).value
