@@ -15,20 +15,6 @@ firebase.initializeApp(config)
 //Variable to reference the firestore db
 let database = firebase.firestore()
 
-//Array for trains 
-let trains = [ ]
-
-//Firestore Collection
-database.collection(`train`).orderBy(`name`).onSnapshot(function (snapshot) {
-  trains = snapshot.docs.map(function (doc) {
-    return doc.data()
-  })
-  let tableContent = document.getElementById(`tableBody`)
-  tableContent.innerHTML = ``
-  for (let i = 0; i < trains.length; i ++) {
-    
-  }
-})
 
 //Submit Button click event to gather new train info
 document.getElementById(`submit`).addEventListener(`click`, function (e) {
@@ -40,18 +26,10 @@ document.getElementById(`submit`).addEventListener(`click`, function (e) {
   let frequencyInput = document.getElementById(`frequency`).value
 
   //Validating  form Inputs
-  if (nameInput != `` &&
-    destinationInput != `` &&
-    trainTimeInput.length === 4 &&
-    frequencyInput != ``) {
-      //Adding input values into the firestore database
-    database.collection(`trains`).add({
-      name: nameInput,
-      destination: destinationInput,
-      firstTrainTime: trainTimeInput,
-      frequency: frequencyInput
-    })
-  } else {
+  if (nameInput == `` &&
+    destinationInput == `` &&
+    trainTimeInput == `` &&
+    frequencyInput == ``) {
     document.getElementById(`alert`).innerHTML = `
           <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
               <strong>Please enter valid train data.</strong> 
@@ -60,6 +38,8 @@ document.getElementById(`submit`).addEventListener(`click`, function (e) {
               </button>
           </div> 
           `
+  } else {
+
   }
 })
 
