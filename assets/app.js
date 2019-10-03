@@ -15,32 +15,41 @@ firebase.initializeApp(config)
 //Variable to reference the firestore db
 let database = firebase.firestore()
 
-
 //Submit Button click event to gather new train info
 document.getElementById(`submit`).addEventListener(`click`, function (e) {
-  // console.log(`hello`)
-  e.preventDefault()
-  let nameInput = document.getElementById(`trainName`).value
-  let destinationInput = document.getElementById(`destination`).value
-  let trainTimeInput = document.getElementById(`firstTrainTime`).value
-  let frequencyInput = document.getElementById(`frequency`).value
+    // console.log(`hello`)
+    e.preventDefault()
+    //Gathering input values into variables
+    let nameInput = document.getElementById(`trainName`).value
+    let destinationInput = document.getElementById(`destination`).value
+    let trainTimeInput = document.getElementById(`firstTrainTime`).value
+    let frequencyInput = document.getElementById(`frequency`).value
 
-  //Validating  form Inputs
-  if (nameInput == `` &&
-    destinationInput == `` &&
-    trainTimeInput == `` &&
-    frequencyInput == ``) {
-    document.getElementById(`alert`).innerHTML = `
-          <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-              <strong>Please enter valid train data.</strong> 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div> 
-          `
-  } else {
+    //Object for new trains
+    const newTrain = {|
+    name: nameInput,
+    destination: destinationInput,
+    firstTime: trainTimeInput,
+    frequency: frequencyInput
+    }
+    
+      //Validating  form Inputs
+    if (nameInput == `` &&
+      destinationInput == `` &&
+      trainTimeInput == `` &&
+      frequencyInput == ``) {
+      document.getElementById(`alert`).innerHTML = `
+            <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                <strong>Please enter valid train data.</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div> 
+            `
+    } else {
+      database.ref().push(newTrain)
 
-  }
+    }
 })
 
 // pass original date in seconds (unix) and rate in minutes
