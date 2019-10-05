@@ -35,15 +35,14 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
   //Storing the new train object into the Firestore database
   database
     .collection(`trains`)
-    .doc(`train`)
+    .doc(newTrain.name)
     .set(newTrain)
 
-//Reset form
+  //Reset form
   document.getElementById(`trainName`).value = ""
   document.getElementById(`destination`).value = ""
   document.getElementById(`firstTrainTime`).value = ""
   document.getElementById(`frequency`).value = ""
-
 
   //Validating  form Inputs
   if (nameInput == `` &&
@@ -65,17 +64,18 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
       .onSnapshot(({ docs }) => {
         docs.forEach(train => {
           let { name, destination, firstTime, frequency } = train.data()
-          document.getElementById(`tableBody`).innerHTML = `
-      <tr>
-      <th scope="row"> ${name} </th>
-      <td> ${destination} </td>
-      <td> ${frequency} </td>
-      <td> nextArrival  </td>
-      <td> minsAway </td>
-    </tr>
-    `
+          let trainElem = document.createElement(`tr`)
+          trainElem.innerHTML = `
+              <th scope="row"> ${name} </th>
+              <td> ${destination} </td>
+              <td> ${frequency} </td>
+              <td> nextArrival  </td>
+              <td> minsAway </td>
+            `
+          document.getElementById(`tableBody`).append(trainElem)
         })
       })
+  }
 })
 
 
