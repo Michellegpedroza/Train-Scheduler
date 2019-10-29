@@ -19,17 +19,17 @@ let database = firebase.firestore()
 document.getElementById(`submit`).addEventListener(`click`, e => {
   e.preventDefault()
   //Gathering input values into variables
-  let nameInput = document.getElementById(`trainName`).value
-  let destinationInput = document.getElementById(`destination`).value
-  let trainTimeInput = document.getElementById(`firstTrainTime`).value
-  let frequencyInput = document.getElementById(`frequency`).value
+  let name = document.getElementById(`trainName`).value
+  let destination = document.getElementById(`destination`).value
+  let firstTime = document.getElementById(`firstTrainTime`).value
+  let frequency = document.getElementById(`frequency`).value
 
   //Object for new trains
   let newTrain = {
-    name: nameInput,
-    destination: destinationInput,
-    firstTime: trainTimeInput,
-    frequency: frequencyInput
+    name: name,
+    destination: destination,
+    firstTime: firstTime,
+    frequency: frequency
   }
 
   //Storing the new train object into the Firestore database
@@ -44,12 +44,11 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
   document.getElementById(`firstTrainTime`).value = ``
   document.getElementById(`frequency`).value = ``
 
-
   //Validating  form Inputs
-  if (nameInput == `` ||
-    destinationInput == `` ||
-    trainTimeInput == `` ||
-    frequencyInput == ``) {
+  if (name == `` ||
+    destination == `` ||
+    firstTime == `` ||
+    frequency == ``) {
     document.getElementById(`alert`).innerHTML = `
             <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
                 <strong>Please enter valid train data.</strong> 
@@ -65,14 +64,23 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
       .onSnapshot(({ docs }) => {
         document.getElementById(`tableBody`).innerHTML = ``
         docs.forEach(train => {
+
+          // calculate the frequency time
+          let differenceInTime = moment().diff(moment.unix(firstTime), "minutes");
+          let remainder = moment().diff(moment.unix(firstTime), "minutes") % frequency;
+          let minsAway = frequency - remainder;
+
+          // calculate arrival time
+          let nextArrival = moment().add(minsAway, "m").format("hh:mm A");
+
           let { name, destination, firstTime, frequency } = train.data()
           let trainElem = document.createElement(`tr`)
           trainElem.innerHTML = `
               <th scope="row"> ${name} </th>
               <td> ${destination} </td>
               <td> ${frequency} </td>
-              <td> nextArrival  </td>
-              <td> minsAway </td>
+              <td> ${nextArrival}  </td>
+              <td> ${minsAway} </td>
             `
           document.getElementById(`tableBody`).append(trainElem)
         })
@@ -80,15 +88,14 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
   }
 })
 
-
-
 // pass original date in seconds (unix) and rate in minutes
-const getNext = (original, rate) => {
-  const rateInSeconds = rate * 60
-  const now = moment().unix()
-  let lapse = original
-  while (lapse < now) {
-    lapse += rateInSeconds
-  }
-  return moment((lapse + rate), 'X').format('MMMM, Do YYYY hh:mm a')
-}
+// const getNext = (original, rate) => {
+//   const rateInSeconds = rate * 60
+//   const now = moment().unix()
+//   let lapse = original
+//   while (lapse < now) {
+//     lapse += rateInSeconds
+//   }
+//   return moment((lapse + rate), 'X').format('MMMM, Do YYYY hh:mm a')
+// }
+
