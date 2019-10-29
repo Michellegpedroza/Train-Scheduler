@@ -1,13 +1,13 @@
 // Firebase configuration
 const config = {
-  apiKey: `AIzaSyCotr9_bOZ82TFN-UXVVHirjULjjopSfh0`,
-  authDomain: `train-scheduler-99335.firebaseapp.com`,
-  databaseURL: `https://train-scheduler-99335.firebaseio.com`,
-  projectId: `train-scheduler-99335`,
-  storageBucket: ``,
-  messagingSenderId: `176382154081`,
-  appId: `1:176382154081:web:2f7cdbbaf30243f6b9e120`,
-  measurementId: `G-FDCB73XSZX`
+  apiKey: `AIzaSyChhNoN4QVyMHSNyymOzPLe1vohU8unqtU`,
+  authDomain: `trainscheduler-b8011.firebaseapp.com`,
+  databaseURL: `https://trainscheduler-b8011.firebaseio.com`,
+  projectId: `trainscheduler-b8011`,
+  storageBucket: `trainscheduler-b8011.appspot.com`,
+  messagingSenderId: `190167280474`,
+  appId: `1:190167280474:web:ef4175a8d34e29908c6163`,
+  measurementId: `G-ME42QM4Q95`
 }
 // Initialize Firebase
 firebase.initializeApp(config)
@@ -25,7 +25,7 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
   let frequencyInput = document.getElementById(`frequency`).value
 
   //Object for new trains
-  const newTrain = {
+  let newTrain = {
     name: nameInput,
     destination: destinationInput,
     firstTime: trainTimeInput,
@@ -39,15 +39,16 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
     .set(newTrain)
 
   //Reset form
-  document.getElementById(`trainName`).value = ""
-  document.getElementById(`destination`).value = ""
-  document.getElementById(`firstTrainTime`).value = ""
-  document.getElementById(`frequency`).value = ""
+  document.getElementById(`trainName`).value = ``
+  document.getElementById(`destination`).value = ``
+  document.getElementById(`firstTrainTime`).value = ``
+  document.getElementById(`frequency`).value = ``
+
 
   //Validating  form Inputs
-  if (nameInput == `` &&
-    destinationInput == `` &&
-    trainTimeInput == `` &&
+  if (nameInput == `` ||
+    destinationInput == `` ||
+    trainTimeInput == `` ||
     frequencyInput == ``) {
     document.getElementById(`alert`).innerHTML = `
             <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
@@ -62,6 +63,7 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
     database
       .collection(`trains`)
       .onSnapshot(({ docs }) => {
+        document.getElementById(`tableBody`).innerHTML = ``
         docs.forEach(train => {
           let { name, destination, firstTime, frequency } = train.data()
           let trainElem = document.createElement(`tr`)
@@ -82,16 +84,11 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
 
 // pass original date in seconds (unix) and rate in minutes
 const getNext = (original, rate) => {
-
   const rateInSeconds = rate * 60
-
   const now = moment().unix()
-
   let lapse = original
-
   while (lapse < now) {
     lapse += rateInSeconds
   }
-
   return moment((lapse + rate), 'X').format('MMMM, Do YYYY hh:mm a')
 }
