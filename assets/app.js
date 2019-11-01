@@ -62,17 +62,16 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
     database
       .collection(`trains`)
       .onSnapshot(({ docs }) => {
+        // calculate the frequency time
+        let differenceInTime = moment().diff(moment.unix(firstTime), `minutes`)
+        let remainder = moment().diff(moment.unix(firstTime), `minutes`) % frequency
+        let minsAway = frequency - remainder
+
+        // calculate arrival time
+        let nextArrival = moment().add(minsAway, `m`).format(`hh:mm A`)
+
         document.getElementById(`tableBody`).innerHTML = ``
         docs.forEach(train => {
-
-          // calculate the frequency time
-          let differenceInTime = moment().diff(moment.unix(firstTime), "minutes");
-          let remainder = moment().diff(moment.unix(firstTime), "minutes") % frequency;
-          let minsAway = frequency - remainder;
-
-          // calculate arrival time
-          let nextArrival = moment().add(minsAway, "m").format("hh:mm A");
-
           let { name, destination, firstTime, frequency } = train.data()
           let trainElem = document.createElement(`tr`)
           trainElem.innerHTML = `
@@ -98,4 +97,6 @@ document.getElementById(`submit`).addEventListener(`click`, e => {
 //   }
 //   return moment((lapse + rate), 'X').format('MMMM, Do YYYY hh:mm a')
 // }
+
+
 

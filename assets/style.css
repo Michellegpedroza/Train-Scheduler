@@ -1,0 +1,10 @@
+body {
+  background-image: url("./images/gray.png");
+}
+
+#trainImg{
+  height: 100px;
+  width: 200px;
+}
+
+
